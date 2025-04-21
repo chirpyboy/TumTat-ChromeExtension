@@ -1,0 +1,16 @@
+bard-sidenav, bard-mode-switcher, .capabilities-disclaimer, .side-nav-menu-button {
+    display: none !important
+}
+.conversation-container:first-child user-query.ng-star-inserted{
+    display: none
+}
+
+.mdc-button__label {
+    display: none;
+}
+.studio-sidebar-launcher {
+    display: none;
+}
+.gds-upsell-button {
+    display: none !important;
+}

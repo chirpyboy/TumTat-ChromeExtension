@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TumTat - Free AI Summary and Asking - Settings</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #4285f4;
+      text-align: center;
+    }
+    .option-group {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .save-button {
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto 0;
+    }
+    .save-button:hover {
+      background-color: #3367d6;
+    }
+    .status {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>TumTat - Free AI Summary and Asking - Settings</h1>
+  
+  <div class="option-group">
+    <label for="responseLanguage">AI Response Language:</label>
+    <select id="responseLanguage">
+      <option value="Vietnamese">Vietnamese</option>
+      <option value="English">English</option>
+      <option value="Chinese">Chinese</option>
+      <option value="Spanish">Spanish</option>
+      <option value="French">French</option>
+      <option value="German">German</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Korean">Korean</option>
+      <option value="Russian">Russian</option>
+      <option value="Portuguese">Portuguese</option>
+      <option value="Italian">Italian</option>
+      <option value="Dutch">Dutch</option>
+      <option value="Arabic">Arabic</option>
+      <option value="Hindi">Hindi</option>
+      <option value="Thai">Thai</option>
+    </select>
+  </div>
+
+  <button id="save" class="save-button">Save Settings</button>
+  <div id="status" class="status"></div>
+
+  <script src="options.js"></script>
+</body>
+</html> 

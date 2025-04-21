@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "TumTat - Free AI Summary and Asking",
+  "version": "1.0.1",
+  "description": "AI assistant tool helps summarize, translate, and search information from web content with Gemini AI.",
+  "permissions": [
+    "activeTab", 
+    "contextMenus", 
+    "tabs", 
+    "declarativeNetRequest", 
+    "declarativeNetRequestFeedback",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.google.com/*"
+  ],
+  "icons": {
+    "16": "images/ai_icon_32.png",
+    "48": "images/ai_icon_32.png",
+    "128": "images/ai_icon_32.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/ai_icon_32.png",
+      "48": "images/ai_icon_32.png",
+      "128": "images/ai_icon_32.png"
+    },
+    "default_popup": "browser_action_popup.html",
+    "default_title": "TumTat - Free AI Summary and Asking"
+  },
+  "options_page": "options.html",
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["libs/Readability.min.js", "utils.js", "content.js"],
+      "css": ["css/content.css"]
+    },
+    {
+      "matches": ["https://gemini.google.com/app"],
+      "js": ["utils.js", "gemini-tab.js"],
+      "css": ["css/gemini-styles.css"],
+      "all_frames": true,
+      "frame_type": "sub_frame"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html", "utils.js", "css/gemini-styles.css", "css/content.css", "libs/Readability.min.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "commands": {
+    "trigger-ai-summary": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Trigger AI summary with Command+Shift+S (Mac) or Ctrl+Shift+S (Windows/Linux)"
+    }
+  }
+}

@@ -1,0 +1,143 @@
+#ai-popup-modal.left-side {
+    width: 30%;
+    right: 0px;
+    left: auto;
+}
+#ai-popup-modal.left-side > iframe {
+    height: 100vh;
+}
+
+/**
+ * AI Summary Content - Content Script Styles
+ */
+
+/* Container for the AI summary button */
+.ai-summary-btn-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Main action button */
+.ai-summary-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #8e24aa;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.ai-summary-btn:hover {
+    background-color: #7b1fa2;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ai-summary-btn:active {
+    transform: scale(0.95);
+}
+
+/* Selection highlight - for when text is selected */
+::selection {
+    background-color: rgba(142, 36, 170, 0.2);
+}
+
+/* Tooltip styles */
+.ai-tooltip {
+    position: absolute;
+    background-color: #424242;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ai-tooltip.visible {
+    opacity: 1;
+}
+
+/* Loading spinner */
+.ai-loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: ai-spin 1s infinite linear;
+}
+
+@keyframes ai-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* YouTube specific styles */
+.ai-youtube-caption-button {
+    background-color: #8e24aa;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 10px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: medium;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.ai-youtube-caption-button:hover {
+    background-color: #7b1fa2;
+}
+
+.ai-youtube-caption-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Context menu highlight on hover */
+.ai-context-highlight {
+    background-color: rgba(142, 36, 170, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+/* Medium articles specific styles */
+.ai-medium-unlock-banner {
+    background-color: #8e24aa;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .ai-summary-btn-container {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .ai-summary-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+}
