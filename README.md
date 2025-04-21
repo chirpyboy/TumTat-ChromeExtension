@@ -25,7 +25,7 @@ TumTat is a Chrome extension that helps users leverage the power of AI to summar
 
 ### Manual Installation
 
-1. Download the source code from [GitHub Repository](https://github.com/yourusername/TumTat)
+1. Download the source code from [GitHub Repository](https://github.com/chirpyboy/TumTat-ChromeExtension)
 2. Extract the downloaded ZIP file
 3. Open Chrome and go to `chrome://extensions/`
 4. Enable "Developer mode" in the top right corner
