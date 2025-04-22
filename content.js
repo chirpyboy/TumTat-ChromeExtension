@@ -243,7 +243,7 @@ ${languagePrompt}
                 const { webContent, title } = await this.processContent(options);
                 const responseLanguage = await Utils.getResponseLanguage();
                 
-                const languagePrompt = `Please present the following content in a clear and comprehensive way in ${responseLanguage}:`;
+                const languagePrompt = `Trình bày lại nội dung sau một cách dễ hiểu nhất ${responseLanguage}:`;
                 
                 const prompt = `${languagePrompt}
 Title: 
