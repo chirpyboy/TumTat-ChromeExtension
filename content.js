@@ -8,6 +8,257 @@
     const Utils = window.AIUtils;
 
     /**
+     * MobileBubbleMenu: Quản lý giao diện menu bubble trên thiết bị di động
+     */
+    const MobileBubbleMenu = {
+        // Biến lưu trữ các phần tử DOM
+        bubbleElement: null,
+        menuItemsElement: null,
+        
+        /**
+         * Khởi tạo menu bubble
+         */
+        initialize() {
+            // Tạo các phần tử CSS cho menu bubble
+            this.injectStyles();
+            
+            // Tạo phần tử HTML cho menu bubble
+            this.createMenuElements();
+            
+            // Đăng ký các sự kiện
+            this.registerEventListeners();
+            
+            return this;
+        },
+        
+        /**
+         * Thêm CSS cho menu bubble vào trang
+         */
+        injectStyles() {
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Menu Bubble Styles */
+                #mobile-menu-bubble {
+                    display: none; /* Mặc định ẩn trên desktop */
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 42px; /* Giảm 30% từ 60px */
+                    height: 42px; /* Giảm 30% từ 60px */
+                    background-color: #4285f4;
+                    border-radius: 50%;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    z-index: 100000001;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+            
+                #mobile-menu-bubble .bubble-icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 100%;
+                    color: white;
+                    font-size: 18px; /* Giảm kích thước font */
+                }
+                
+                #mobile-menu-bubble .bubble-icon img {
+                    width: 70%;
+                    height: 70%;
+                    object-fit: contain;
+                }
+            
+                #mobile-menu-bubble:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                }
+            
+                #mobile-menu-items {
+                    position: fixed;
+                    bottom: 70px; /* Điều chỉnh lại vị trí để phù hợp với bubble nhỏ hơn */
+                    right: 20px;
+                    display: none;
+                    flex-direction: column;
+                    gap: 10px;
+                    z-index: 100000001;
+                }
+            
+                #mobile-menu-items.active {
+                    display: flex;
+                    animation: fadeInUp 0.3s ease forwards;
+                }
+            
+                .mobile-menu-item {
+                    background-color: white;
+                    color: #333;
+                    padding: 10px 15px;
+                    border-radius: 20px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+            
+                .mobile-menu-item:hover {
+                    background-color: #f5f5f5;
+                    transform: translateX(-5px);
+                }
+            
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            
+                /* Chỉ hiển thị trên thiết bị di động và tablet */
+                @media only screen and (max-width: 1024px) {
+                    #mobile-menu-bubble {
+                        display: block;
+                    }
+                }
+                
+                /* Mobile class cho popup modal */
+                #ai-popup-modal.mobile {
+                    width: 100vw !important;
+                    height: 100vh !important;
+                }
+                
+                #ai-popup-modal.mobile .iframe-wrapper {
+                    width: 100% !important;
+                    height: 100% !important;
+                    border-radius: 0 !important;
+                }
+            `;
+            document.head.appendChild(style);
+        },
+        
+        /**
+         * Tạo phần tử HTML cho menu bubble
+         */
+        createMenuElements() {
+            // Tạo menu bubble
+            this.bubbleElement = document.createElement('div');
+            this.bubbleElement.id = 'mobile-menu-bubble';
+            
+            // Lấy URL icon của extension
+            const iconURL = chrome.runtime.getURL('images/ai_icon_32.png');
+            
+            this.bubbleElement.innerHTML = `
+                <div class="bubble-icon">
+                    <img src="${iconURL}" alt="AI Extension">
+                </div>
+            `;
+            
+            // Tạo menu items
+            this.menuItemsElement = document.createElement('div');
+            this.menuItemsElement.id = 'mobile-menu-items';
+            this.menuItemsElement.innerHTML = `
+                <div class="mobile-menu-item" data-action="summaryContentMenu">
+                    <span>📝</span> Summarize content
+                </div>
+                <div class="mobile-menu-item" data-action="translateContentMenu">
+                    <span>🌐</span> Translate content
+                </div>
+                <div class="mobile-menu-item" data-action="askContentMenu">
+                    <span>💬</span> Q&A about content
+                </div>
+            `;
+            
+            // Thêm vào body
+            document.body.appendChild(this.bubbleElement);
+            document.body.appendChild(this.menuItemsElement);
+        },
+        
+        /**
+         * Đăng ký các sự kiện cho menu bubble
+         */
+        registerEventListeners() {
+            // Hiển thị/ẩn menu khi click vào bubble
+            this.bubbleElement.addEventListener('click', () => {
+                this.menuItemsElement.classList.toggle('active');
+            });
+            
+            // Đóng menu khi click ra ngoài
+            document.addEventListener('click', (event) => {
+                if (!this.bubbleElement.contains(event.target) && !this.menuItemsElement.contains(event.target)) {
+                    this.menuItemsElement.classList.remove('active');
+                }
+            });
+            
+            // Xử lý khi click vào menu item
+            const menuOptions = this.menuItemsElement.querySelectorAll('.mobile-menu-item');
+            menuOptions.forEach(item => {
+                item.addEventListener('click', async function() {
+                    const action = this.getAttribute('data-action');
+                    
+                    // Gọi trực tiếp các hàm xử lý tương ứng
+                    const googleSearchPattern = /google\.com(\.vn)?\/search/;
+                    try {
+                        // Handle Google search results
+                        if (action === "summaryContentMenu" && googleSearchPattern.test(location.href)) {
+                            const searchQuery = Utils.getUrlParams().get("q");
+                            await ContentHandler.handleGoogleSearchSummary(searchQuery);
+                        } 
+                        // Handle content summary
+                        else if (action === "summaryContentMenu") {
+                            await ContentHandler.handleSummaryContent({
+                                linkUrl: "",
+                                selectionText: ""
+                            });
+                        } 
+                        // Handle content translation
+                        else if (action === "translateContentMenu") {
+                            await ContentHandler.handleTranslateContent({
+                                selectionText: ""
+                            });
+                        } 
+                        // Handle content Q&A
+                        else if (action === "askContentMenu") {
+                            await ContentHandler.handleAskContent({
+                                linkUrl: "",
+                                selectionText: ""
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error handling menu item click:", error);
+                    }
+                    
+                    // Đóng menu sau khi click
+                    document.getElementById('mobile-menu-items').classList.remove('active');
+                });
+            });
+        },
+        
+        /**
+         * Hiển thị bubble
+         */
+        show() {
+            if (this.bubbleElement) {
+                this.bubbleElement.style.display = 'block';
+            }
+        },
+        
+        /**
+         * Ẩn bubble
+         */
+        hide() {
+            if (this.bubbleElement) {
+                this.bubbleElement.style.display = 'none';
+                // Đồng thời ẩn menu items
+                this.menuItemsElement.classList.remove('active');
+            }
+        }
+    };
+
+    /**
      * AIPopup: Quản lý giao diện popup AI
      */
     const AIPopup = {
@@ -16,6 +267,7 @@
         element: null,
         iframe: null,
         btnSidebar: null,
+        btnClose: null,
         
         /**
          * Khởi tạo và trả về instance của popup
@@ -36,10 +288,17 @@
                     this.element = document.getElementById("ai-popup-modal");
                     this.btnSidebar = this.element.querySelector(".btn-sidebar");
                     this.iframe = this.element.querySelector("iframe");
+                    this.btnClose = this.element.querySelector(".close-popup");
+                    // Kiểm tra kích thước màn hình và thêm class mobile nếu cần
+                    this.checkAndAddMobileClass();
+                    
+                    // Thêm event listener cho sự kiện resize
+                    window.addEventListener('resize', this.checkAndAddMobileClass.bind(this));
                     
                     // Đăng ký event listeners
                     this.element.addEventListener("click", this.handleDocumentClick.bind(this));
                     this.btnSidebar.addEventListener("click", this.handleSidebarButtonClick.bind(this));
+                    this.btnClose.addEventListener("click", this.hide.bind(this));
                     
                     // Đăng ký listener cho sự kiện message từ iframe
                     window.addEventListener("message", (event) => {
@@ -62,6 +321,17 @@
         },
         
         /**
+         * Kiểm tra kích thước màn hình và thêm class mobile nếu cần
+         */
+        checkAndAddMobileClass() {
+            if (window.innerWidth <= 1024) {
+                this.element.classList.add('mobile');
+            } else {
+                this.element.classList.remove('mobile');
+            }
+        },
+        
+        /**
          * Hiển thị popup
          */
         show() {
@@ -72,6 +342,9 @@
             this.isVisible = true;
             this.element.classList.add("visible");
             this.element.style.display = "flex";
+            
+            // Ẩn menu bubble khi popup hiển thị
+            MobileBubbleMenu.hide();
         },
         
         /**
@@ -85,6 +358,9 @@
             this.isVisible = false;
             this.element.classList.remove("visible");
             this.element.style.display = "none";
+            
+            // Hiển thị lại menu bubble khi popup ẩn
+            MobileBubbleMenu.show();
         },
         
         /**
@@ -362,6 +638,9 @@ Content:
             console.error("Error handling message:", error);
         }
     });
+
+    // Khởi tạo menu bubble cho thiết bị di động
+    MobileBubbleMenu.initialize();
 })();
 
 console.log("AI Chrome Extension V2")

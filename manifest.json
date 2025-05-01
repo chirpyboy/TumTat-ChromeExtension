@@ -57,7 +57,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["popup.html", "utils.js", "css/gemini-styles.css", "css/content.css", "libs/Readability.min.js"],
+      "resources": ["popup.html", "utils.js", "css/gemini-styles.css", "css/content.css", "libs/Readability.min.js", "images/ai_icon_32.png"],
       "matches": ["<all_urls>"]
     }
   ],

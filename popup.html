@@ -32,9 +32,34 @@
     #ai-popup-modal.left-side .iframe-wrapper{
         height: 100vh;
     }
+    #ai-popup-modal .close-popup{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 18px;
+        background-color: #f5f5f5;
+        color: #333;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+        z-index: 100000002;
+    }
+    
+    #ai-popup-modal .close-popup:hover {
+        background-color: #e0e0e0;
+        transform: scale(1.05);
+    }
 </style>
 <div id="ai-popup-modal" class="">
     <div class="iframe-wrapper">
+        <button id="close-popup" class="close-popup">X</button>
         <button type="button" class="btn-sidebar" title="Move to sidebar" aria-label="Move to sidebar">❯</button>
         <iframe src="https://gemini.google.com/app" title="Gemini AI"></iframe>
     </div>
