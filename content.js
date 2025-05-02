@@ -519,7 +519,7 @@ ${languagePrompt}
                 const { webContent, title } = await this.processContent(options);
                 const responseLanguage = await Utils.getResponseLanguage();
                 
-                const languagePrompt = `Hãy tóm tắt nội dung sau một cách dễ hiểu nhất bằng tiếng ${responseLanguage}, nội dung bao gồm 2 phần, 1 là nội dung chính được tóm gọn trong 3-5 câu, 2 là các thông tin chi tiết được liệt kê dưới dạng bullet, hãy trả lời thẳng vào câu hỏi, không cần giới thiệu kiểu "Here is the summary of the content:".`;
+                const languagePrompt = `Hãy tóm tắt nội dung sau một cách dễ hiểu nhất bằng tiếng ${responseLanguage}, nội dung bao gồm 3 phần, 1 là tiêu đề bài viết, 2 là nội dung chính được tóm gọn trong 3-5 câu, 2 là các thông tin chi tiết được liệt kê dưới dạng bullet, hãy trả lời thẳng vào câu hỏi, không cần giới thiệu kiểu "Here is the summary of the content:".`;
                 
                 const prompt = `${languagePrompt}
 Title: 
