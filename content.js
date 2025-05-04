@@ -164,13 +164,14 @@
                 <div class="mobile-menu-item" data-action="summaryContentMenu">
                     <span>📝</span> Summarize content
                 </div>
-                <div class="mobile-menu-item" data-action="translateContentMenu">
-                    <span>🌐</span> Translate content
-                </div>
+                
                 <div class="mobile-menu-item" data-action="askContentMenu">
                     <span>💬</span> Q&A about content
                 </div>
             `;
+            // <div class="mobile-menu-item" data-action="translateContentMenu">
+            //         <span>🌐</span> Translate content
+            //     </div>
             
             // Thêm vào body
             document.body.appendChild(this.bubbleElement);
@@ -313,8 +314,10 @@
                 }
             }else{
                 window.AIIframeLoaded = false;
-                this.iframe.src = ""
-                this.iframe.src = "https://gemini.google.com/app"
+                this.iframe.src = "#"
+                setTimeout(() => {
+                    this.iframe.src = "https://gemini.google.com/app"
+                }, 500);
             }
             
             return this;
@@ -519,7 +522,7 @@ ${languagePrompt}
                 const { webContent, title } = await this.processContent(options);
                 const responseLanguage = await Utils.getResponseLanguage();
                 
-                const languagePrompt = `Hãy tóm tắt nội dung sau một cách dễ hiểu nhất bằng tiếng ${responseLanguage}, nội dung bao gồm 4 phần, 1 là tiêu đề bài viết, 2 là nội dung chính được tóm gọn trong 3-5 câu, 3 là các thông tin chi tiết được liệt kê dưới dạng bullet, 4 là tóm tắt thật ngắn gọn (bullet format) những kiến thức mới được rút ra từ nội dung trên giúp mở rộng tầm hiểu biết của tôi, hãy trả lời thẳng vào câu hỏi, không cần giới thiệu kiểu "Here is the summary of the content:".`;
+                const languagePrompt = `Hãy tóm tắt nội dung sau một cách dễ hiểu nhất bằng tiếng ${responseLanguage}, nội dung bao gồm 3 phần, 1 là tiêu đề bài viết, 2 là nội dung chính được tóm gọn trong 3-5 câu, 3 là các thông tin chi tiết được liệt kê dưới dạng bullet, hãy trả lời thẳng vào câu hỏi, không cần giới thiệu kiểu "Here is the summary of the content:".`;
                 
                 const prompt = `${languagePrompt}
 Title: 
