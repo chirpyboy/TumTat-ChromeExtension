@@ -423,7 +423,7 @@
                     .join("\n");
                 
                 // Tạo prompt cho AI
-                const languagePrompt = `<require>Always answer in ${responseLanguage}</require>`;
+                const languagePrompt = `<require>Always answer in ${responseLanguage}. For common IT/technology terms, please keep them in English as they are more familiar in their original form (e.g., API, database, framework, server, etc.)</require>`;
 
                 const prompt = `<role>The user is searching on Google, your task is to use the Google search results content to answer the user's question</role>
 ${languagePrompt}
@@ -522,7 +522,7 @@ ${languagePrompt}
                 const { webContent, title } = await this.processContent(options);
                 const responseLanguage = await Utils.getResponseLanguage();
                 
-                const languagePrompt = `Hãy tóm tắt nội dung sau một cách dễ hiểu nhất bằng tiếng ${responseLanguage}, nội dung bao gồm 3 phần, 1 là tiêu đề bài viết, 2 là nội dung chính được tóm gọn trong 3-5 câu, 3 là các thông tin chi tiết được liệt kê dưới dạng bullet, hãy trả lời thẳng vào câu hỏi, không cần giới thiệu kiểu "Here is the summary of the content:".`;
+                const languagePrompt = `Hãy tóm tắt nội dung sau một cách dễ hiểu nhất bằng tiếng ${responseLanguage}, nội dung bao gồm 3 phần, 1 là tiêu đề bài viết, 2 là nội dung chính được tóm gọn trong 3-5 câu, 3 là các thông tin chi tiết được liệt kê dưới dạng bullet, hãy trả lời thẳng vào câu hỏi, không cần giới thiệu kiểu "Here is the summary of the content:". Đối với các thuật ngữ công nghệ thông tin phổ biến, vui lòng giữ nguyên tiếng Anh vì chúng quen thuộc hơn ở dạng gốc (ví dụ: API, database, framework, server, v.v.).`;
                 
                 const prompt = `${languagePrompt}
 Title: 
@@ -553,7 +553,7 @@ Content:
                 const { webContent, title } = await this.processContent(options);
                 const responseLanguage = await Utils.getResponseLanguage();
                 
-                const languagePrompt = `remember to answer in ${responseLanguage}`;
+                const languagePrompt = `remember to answer in ${responseLanguage}. For common IT/technology terms, please keep them in English as they are more familiar in their original form (e.g., API, database, framework, server, etc.)`;
                 
                 const prompt = `<role>Content analyst who answers user questions</role>
 <required>Remember the following content and just answer 'I have remembered the content you sent, please ask me any question you want about this content' and say nothing more, the user will ask you later, ${languagePrompt}</required>
@@ -584,7 +584,7 @@ Content:
                 const responseLanguage = await Utils.getResponseLanguage();
                 
                 const prompt = `<role>Translator, translate from English to ${responseLanguage} or vice versa</role>
-<require>Translate the main content (main_text) below, keep the answer concise</require>
+<require>Translate the main content (main_text) below, keep the answer concise. For common IT/technology terms, please keep them in English as they are more familiar in their original form (e.g., API, database, framework, server, etc.)</require>
 <before_text>${context.before}</before_text>
 <main_text>${context.selected}</main_text>
 <after_text>${context.after}</after_text>
